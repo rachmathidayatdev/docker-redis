@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db_redis:
+    container_name: redisserver
+    image: redis:latest
+    restart: always
+    command: redis-server --requirepass root
+    networks:
+      - db_network
+    ports:
+      - 6379:6379
+    environment:
+      REDIS_REPLICATION_MODE: master
+      # REDIS_PASSWORD: root
+    volumes:
+      - ./redisdata:/var/lib/redis
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+
+networks:
+  db_network:
+    driver: bridge
